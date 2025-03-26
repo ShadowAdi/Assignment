@@ -15,7 +15,7 @@ const corsOptions = {
     credentials: true
 };
 
-app.use(cors(corsOptions)); // Apply CORS middleware
+app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 app.use(express.json());
@@ -23,16 +23,11 @@ app.use("/api", router);
 
 const PORT = process.env.PORT || 3001;
 
-// ✅ Export the app for Vercel (Fix for "No exports found" error)
-export default app;
-
-// ✅ Ensure DB connects before running locally
-if (process.env.NODE_ENV !== "production") {
-    connectDB().then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-    }).catch((error) => {
-        console.log("Failed to connect DB and server:", error);
+// ✅ Always connect to DB before starting the server
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
-}
+}).catch((error) => {
+    console.log("Failed to connect DB and server:", error);
+});
