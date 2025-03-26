@@ -84,7 +84,7 @@ export const LoginAdmin = async (req, res) => {
         if (!JWT_SECRET) {
             return res.status(403).json({
                 success: false,
-                message: "Jwt Do Not Exist"
+                message: "JWT Do Not Exist"
             });
         }
 
